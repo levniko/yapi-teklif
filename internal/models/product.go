@@ -16,7 +16,7 @@ type Product struct {
 	HeroImage         string           `json:"hero_image" gorm:"type:varchar(255)"`
 	ProductImages     []ProductImage   `json:"product_images" gorm:"foreingKey:ProductID"`
 	ProductCategory   *ProductCategory `json:"product_category" gorm:"foreignkey:ProductCategoryID"`
-	ProductCategoryID uint             `json:"category_id" gorm:"index;type:int"`
+	ProductCategoryID uint             `json:"product_category_id" gorm:"index;type:int"`
 	Variants          []Variant        `json:"variants" gorm:"foreingKey:ProductID"`
 	CreatedAt         time.Time        `json:"created_at"`
 	UpdatedAt         time.Time        `json:"updated_at"`

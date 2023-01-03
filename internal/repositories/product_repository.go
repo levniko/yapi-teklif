@@ -78,9 +78,19 @@ func (r *ProductRepository) CountBySpuAndCompanyID(spu string, companyID uint) (
 
 func (r *ProductRepository) FindAllByCategoryID(categoryID uint) ([]models.Product, error) {
 	var products []models.Product
-	err := r.Connection.PsqlDB().Where("category_id =?", categoryID).Find(&products).Error
+	err := r.Connection.PsqlDB().
+		Where("product_category_id IN (?)", r.Connection.PsqlDB().
+			Table("product_categories").
+			Select("id").
+			Where("parent_id IN (?)", r.Connection.PsqlDB().
+				Table("product_categories").
+				Select("id").
+				Where("parent_id = ?", categoryID))).
+		Find(&products).Error
+
 	if err != nil {
 		return nil, err
 	}
+	
 	return products, nil
 }

@@ -205,3 +205,41 @@ func (handler *ConstructionsHandler) Get(ctx *fiber.Ctx) (err error) {
 		Data:      construction,
 	})
 }
+
+func (handler *ConstructionsHandler) GetAllByCategory(ctx *fiber.Ctx) (err error) {
+	categoryID, _ := ctx.ParamsInt("id")
+	//Extract the access token metadata
+	metadata, err := ExtractTokenMetadata(ctx)
+	if err != nil {
+		return ctx.Status(http.StatusUnauthorized).JSON(models.ResponseModel{
+			Message:   err.Error(),
+			Error:     true,
+			ErrorCode: http.StatusUnauthorized,
+			Data:      nil,
+		})
+	}
+	_, err = handler.ConstructionManager.FetchAuth(metadata)
+	if err != nil {
+		return ctx.Status(http.StatusUnauthorized).JSON(models.ResponseModel{
+			Message:   err.Error(),
+			Error:     true,
+			ErrorCode: http.StatusUnauthorized,
+			Data:      nil,
+		})
+	}
+	constructions, err, errCode := handler.ConstructionManager.FindAllByCategoryID(uint(categoryID))
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(models.ResponseModel{
+			Message:   err.Error(),
+			Error:     true,
+			ErrorCode: errCode,
+			Data:      nil,
+		})
+	}
+	return ctx.Status(http.StatusOK).JSON(models.ResponseModel{
+		Message:   utils.ProductSuccessFullyFound,
+		Error:     false,
+		ErrorCode: utils.ProductSuccessFullyFoundCode,
+		Data:      constructions,
+	})
+}

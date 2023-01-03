@@ -146,4 +146,5 @@ func InitConstructorRoutes(group fiber.Router) {
 	group.Put("/construction/:id", construction_handler.Update)
 	group.Delete("/construction/:id", construction_handler.Delete)
 	group.Get("/construction/:id", construction_handler.Get)
+	group.Get("/constructions/:id", construction_handler.GetAllByCategory)
 }

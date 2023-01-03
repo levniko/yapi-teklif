@@ -12,7 +12,7 @@ type IConstructionRepository interface {
 	DeleteByID(constructionID uint, companyID uint) error
 	FindCategoryByID(id uint) (*uint, error)
 	FindByIDAndCompanyID(constructionID uint, companyID uint) (*models.Construction, error)
-	// FindAllByCategoryID(categoryID uint) ([]models.Construction, error)
+	FindAllByCategoryID(categoryID uint) ([]models.Construction, error)
 }
 
 type ConstructionRepository struct {
@@ -59,4 +59,23 @@ func (r ConstructionRepository) FindByIDAndCompanyID(constructionID uint, compan
 		return nil, err
 	}
 	return &construction, nil
+}
+
+func (r *ConstructionRepository) FindAllByCategoryID(categoryID uint) ([]models.Construction, error) {
+	var constructions []models.Construction
+	err := r.Connection.PsqlDB().
+		Where("construction_category_id IN (?)", r.Connection.PsqlDB().
+			Table("construction_categories").
+			Select("id").
+			Where("parent_id IN (?)", r.Connection.PsqlDB().
+				Table("construction_categories").
+				Select("id").
+				Where("parent_id = ?", categoryID))).
+		Find(&constructions).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return constructions, nil
 }

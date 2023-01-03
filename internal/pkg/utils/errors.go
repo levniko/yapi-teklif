@@ -21,10 +21,11 @@ const (
 	ProductImageCanNotUpdated = "product image can not be updated"
 
 	//Construction error messages
-	ConstructionCanNotCreated      = "construction can not created"
-	ConstructionFeatureIsWrongType = "construction feature is wrong type"
-	ConstructionCanNotFound        = "construction can not found"
-	ConstructionCanNotUpdated      = "construction can not updated"
+	ConstructionCanNotCreated       = "construction can not created"
+	ConstructionFeatureIsWrongType  = "construction feature is wrong type"
+	ConstructionCanNotFound         = "construction can not found"
+	ConstructionCanNotUpdated       = "construction can not updated"
+	ConstructionCategoryCanNotFound = "construction category can not found"
 
 	//Variant Image error messages
 	VariantImageCanNotUpdated = "variant image can not updated"
@@ -86,11 +87,12 @@ const (
 	ProductImageCanNotUpdatedCode = 700
 
 	//Constructions
-	ConstructionCanNotCreatedCode      = 900
-	ConstructionFeatureIsWrongTypeCode = 901
-	ConstructionCanNotFoundCode        = 902
-	ConstructionCanNotUpdatedCode      = 903
-	ConstructionCanNotDeletedCode      = 904
+	ConstructionCanNotCreatedCode       = 900
+	ConstructionFeatureIsWrongTypeCode  = 901
+	ConstructionCanNotFoundCode         = 902
+	ConstructionCanNotUpdatedCode       = 903
+	ConstructionCanNotDeletedCode       = 904
+	ConstructionCategoryCanNotFoundCode = 905
 
 	//Features
 	FeatureNotFoundCode = 500

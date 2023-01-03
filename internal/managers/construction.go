@@ -14,7 +14,7 @@ type IConstructionManager interface {
 	Update(form forms.ConstructionUpdateForm, constructionID uint, companyID uint) (*models.Construction, error, int)
 	Delete(constructionID uint, companyID uint) (error, int)
 	FindByIDAndCompanyID(constructionID uint, companyID uint) (*models.Construction, error, int)
-	// FindAllByCategoryID(categoryID uint) ([]models.Construction, error, int)
+	FindAllByCategoryID(categoryID uint) ([]models.Construction, error, int)
 	FetchAuth(authD *models.AccessDetails) (uint, error)
 }
 
@@ -54,7 +54,7 @@ func (m *ConstructionManager) Update(form forms.ConstructionUpdateForm, construc
 	}
 	categoryID, err := m.ConstructionService.FindCategoryByID(construction.CategoryID)
 	if err != nil {
-		return nil, errors.New(utils.ProductCategoryCanNotFound), utils.ProductCategoryCanNotFoundCode
+		return nil, errors.New(utils.ConstructionCategoryCanNotFound), utils.ConstructionCategoryCanNotFoundCode
 	}
 	err = m.ConstructionFeatureService.CheckFeaturesTypes(form.ConstructionFeatures, *categoryID)
 	if err != nil {
@@ -62,7 +62,7 @@ func (m *ConstructionManager) Update(form forms.ConstructionUpdateForm, construc
 	}
 	err = m.ConstructionService.UpdateWithFields(construction, form, companyID)
 	if err != nil {
-		return nil, errors.New(utils.ProductCanNotUpdated), utils.ProductCanNotUpdatedCode
+		return nil, errors.New(utils.ConstructionCanNotUpdated), utils.ConstructionCanNotUpdatedCode
 	}
 	return construction, nil, 0
 }
@@ -105,6 +105,14 @@ func (m *ConstructionManager) FindByIDAndCompanyID(constructionID uint, companyI
 		return nil, errors.New(utils.ConstructionCanNotFound), utils.ConstructionCanNotFoundCode
 	}
 	return construction, nil, 0
+}
+
+func (m *ConstructionManager) FindAllByCategoryID(categoryID uint) ([]models.Construction, error, int) {
+	constructions, err := m.ConstructionService.FindAllByCategoryID(categoryID)
+	if err != nil {
+		return nil, errors.New(utils.ConstructionCanNotFound), utils.ConstructionCanNotFoundCode
+	}
+	return constructions, nil, 0
 }
 
 func (m *ConstructionManager) FetchAuth(authD *models.AccessDetails) (uint, error) {

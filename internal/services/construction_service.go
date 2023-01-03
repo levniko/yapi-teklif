@@ -17,7 +17,7 @@ type IConstructionService interface {
 	DeleteByID(constructionID uint, companyID uint) error
 	FindCategoryByID(id uint) (*uint, error)
 	FindByIDAndCompanyID(constructionID uint, companyID uint) (*models.Construction, error)
-	// FindAllByCategoryID(categoryID uint) ([]models.Construction, error)
+	FindAllByCategoryID(categoryID uint) ([]models.Construction, error)
 	FetchAuth(authD *models.AccessDetails) (uint, error)
 }
 
@@ -127,6 +127,10 @@ func (s *ConstructionService) FindCategoryByID(id uint) (*uint, error) {
 
 func (s *ConstructionService) FindByIDAndCompanyID(constructionID uint, companyID uint) (*models.Construction, error) {
 	return s.Repository.FindByIDAndCompanyID(constructionID, companyID)
+}
+
+func (s *ConstructionService) FindAllByCategoryID(categoryID uint) ([]models.Construction, error) {
+	return s.Repository.FindAllByCategoryID(categoryID)
 }
 
 func (s *ConstructionService) FetchAuth(authD *models.AccessDetails) (uint, error) {

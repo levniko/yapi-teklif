@@ -237,9 +237,9 @@ func (handler *ProductsHandler) GetAllByCategory(ctx *fiber.Ctx) (err error) {
 		})
 	}
 	return ctx.Status(http.StatusOK).JSON(models.ResponseModel{
-		Message:   utils.VariantSuccessFullyFound,
+		Message:   utils.ProductSuccessFullyFound,
 		Error:     false,
-		ErrorCode: utils.VariantSuccessFullyFoundCode,
+		ErrorCode: utils.ProductSuccessFullyFoundCode,
 		Data:      products,
 	})
 }
